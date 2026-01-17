@@ -1,0 +1,31 @@
+# MediaMTX Configuration for Jetson Nano (GPU Accelerated)
+
+# Global settings
+logLevel: info
+readTimeout: 30s
+writeTimeout: 30s
+
+# Protocols
+rtsp: yes
+rtmp: yes
+hls: yes
+webrtc: yes
+
+# WebRTC Optimization for Jetson
+webrtcAddress: :8889
+webrtcICEServers2:
+  - url: stun:stun.l.google.com:19302
+
+# Camera Paths using NVIDIA Hardware Encoder (NVENC)
+paths:
+  # กล้อง CSI (สายแพ) ต่อตรงเข้าบอร์ด Jetson
+  # cam0:
+  #   source: publisher
+  #   runOnInit: gst-launch-1.0 nvarguscamerasrc ! 'video/x-raw(memory:NVMM),width=1280,height=720,framerate=30/1' ! nvv4l2h264enc ! h264parse ! rtspclientsink location=rtsp://localhost:8554/cam1
+  #   runOnInitRestart: yes
+
+  # กล้อง USB ต่อเข้าช่อง USB ของ Jetson (/dev/video0)
+  cam1:
+    source: publisher
+    runOnInit: gst-launch-1.0 v4l2src device=/dev/video0 ! videoconvert ! video/x-raw,format=I420 ! nvv4l2h264enc ! h264parse ! rtspclientsink location=rtsp://localhost:8554/cam2
+    runOnInitRestart: yes

@@ -1,6 +1,4 @@
-# คำสั่งสำหรับดึงภาพจากกล้องหน้า Notebook ส่งไปยัง MediaMTX ใน Docker
-# ปรับแต่งให้รองรับ Buffer ขนาดใหญ่และใช้ TCP เพื่อความเสถียรสูงสุด
-
+# คำสั่งสำหรับดึงภาพจากกล้องหน้า Notebook (Ultra-low Latency)
 ffmpeg `
   -f dshow `
   -rtbufsize 500M `
@@ -9,6 +7,9 @@ ffmpeg `
   -c:v libx264 `
   -preset ultrafast `
   -tune zerolatency `
+  -bf 0 `
+  -g 30 `
+  -thread_type slice `
   -b:v 2M `
   -maxrate 2M `
   -bufsize 1M `

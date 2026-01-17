@@ -1,0 +1,13 @@
+services:
+  mediamtx:
+    image: bluenviron/mediamtx:latest
+    container_name: mediamtx
+    network_mode: host # บน Jetson/Linux แนะนำ host เพื่อรีดประสิทธิภาพสูงสุด
+    devices:
+      - /dev/video0:/dev/video0 # กล้องตัวที่ 1
+      - /dev/nvhost-vic:/dev/nvhost-vic # เชื่อมต่อ GPU Hardware Encoder
+      - /dev/nvhost-msenc:/dev/nvhost-msenc # เชื่อมต่อ GPU Hardware Encoder
+      - /dev/nvargus-daemon:/dev/nvargus-daemon # สำหรับกล้อง CSI
+    volumes:
+      - ./mediamtx.jetson.yml:/mediamtx.yml
+    restart: unless-stopped
