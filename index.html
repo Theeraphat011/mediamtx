@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Live Camera Stream | MediaMTX</title>
+    <style>
+      :root {
+        --bg-color: #0f172a;
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --accent-color: #38bdf8;
+        --text-color: #f8fafc;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+      }
+
+      .header {
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+
+      .header h1 {
+        font-size: 1.5rem;
+        font-weight: 300;
+        letter-spacing: 2px;
+        color: var(--accent-color);
+        text-transform: uppercase;
+      }
+
+      .stream-container {
+        width: 90%;
+        max-width: 1000px;
+        background: var(--card-bg);
+        border-radius: 1rem;
+        padding: 10px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      /* รักษาสัดส่วน 16:9 */
+      .video-wrapper {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 */
+        height: 0;
+        overflow: hidden;
+        border-radius: 0.5rem;
+        background: #000;
+      }
+
+      .video-wrapper iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+
+      .status-bar {
+        margin-top: 1rem;
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        opacity: 0.8;
+      }
+
+      .live-dot {
+        width: 8px;
+        height: 8px;
+        background-color: #ef4444;
+        border-radius: 50%;
+        animation: pulse 1.5s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(0.95);
+          box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+        }
+        70% {
+          transform: scale(1);
+          box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+        }
+        100% {
+          transform: scale(0.95);
+          box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>Dual Monitoring System</h1>
+    </div>
+
+    <!-- Container สำหรับจัดวาง 2 จอ -->
+    <div
+      style="
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 20px;
+        width: 95%;
+        max-width: 1200px;
+        padding-bottom: 50px;
+      "
+    >
+      <!-- กล้อง 1: Notebook -->
+      <div class="stream-container" style="width: auto; max-width: none">
+        <div class="video-wrapper">
+          <iframe
+            src="http://localhost:8889/cam1"
+            allow="autoplay; encrypted-media; fullscreen"
+            allowfullscreen
+          >
+          </iframe>
+        </div>
+        <div class="status-bar">
+          <div class="live-dot"></div>
+          <span>CAM 01 - NOTEBOOK</span>
+        </div>
+      </div>
+
+      <!-- กล้อง 2: USB -->
+      <div class="stream-container" style="width: auto; max-width: none">
+        <div class="video-wrapper">
+          <iframe
+            src="http://localhost:8889/cam2"
+            allow="autoplay; encrypted-media; fullscreen"
+            allowfullscreen
+          >
+          </iframe>
+        </div>
+        <div class="status-bar">
+          <div class="live-dot" style="background-color: #38bdf8"></div>
+          <span>CAM 02 - USB CAMERA</span>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

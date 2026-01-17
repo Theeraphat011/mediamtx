@@ -1,0 +1,14 @@
+services:
+  mediamtx:
+    image: bluenviron/mediamtx:latest
+    container_name: mediamtx
+    ports:
+      - "8554:8554" # RTSP: สำหรับรับ-ส่งสัญญาณภาพ (เช่นจาก FFmpeg/OBS)
+      - "1935:1935" # RTMP: สำหรับ Software streaming ทั่วไป
+      - "8888:8888" # HLS: สำหรับดูผ่าน Web Browser (แบบดั้งเดิม)
+      - "8889:8889" # WebRTC: สำหรับดูผ่าน Web (Low Latency ที่เราใช้ใน index.html)
+      - "8189:8189/udp" # WebRTC ICE: จำเป็นสำหรับการเชื่อมต่อ WebRTC ผ่าน UDP
+
+    volumes:
+      - ./mediamtx.yml:/mediamtx.yml
+    restart: unless-stopped
